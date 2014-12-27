@@ -23,8 +23,8 @@
           </a>
     </div>
            <div class="sdsarticle-des">
-          <span itemprop="description" class="clearfix"><div id="lipsum">
-	{$post.short_description}</div></span>
+          <div itemprop="description" class="clearfix"><div class="lipsum">
+	{$post.short_description}</div></div>
          </div>
         <div class="sdsreadMore">
                   {assign var="options" value=null}
