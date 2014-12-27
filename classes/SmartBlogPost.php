@@ -676,6 +676,7 @@ class SmartBlogPost extends ObjectModel
                 LIMIT '.$limit;
                 $posts = Db::getInstance(_PS_USE_SQL_SLAVE_)->executeS($sql2);      
             }
+             $BlogCategory = new BlogCategory();
              $i = 0;
             foreach($posts as $post){
                 $result[$i]['id'] = $post['id_smart_blog_post'];
@@ -686,6 +687,7 @@ class SmartBlogPost extends ObjectModel
                 $result[$i]['category'] = $post['id_category'];
                 $result[$i]['date_added'] = $post['created'];
                 $result[$i]['viewed'] = $post['viewed'];
+                $result[$i]['cat_name'] = $BlogCategory->getCatName($post['id_category']);
                 $result[$i]['is_featured'] = $post['is_featured'];
                 $result[$i]['link_rewrite'] = $post['link_rewrite'];
                 if (file_exists(_PS_MODULE_DIR_.'smartblog/images/' . $post['id_smart_blog_post'] . '.jpg'))
