@@ -34,6 +34,7 @@ class smartblog extends Module {
         Configuration::updateGlobalValue('smartshowauthorstyle', '1');
         Configuration::updateGlobalValue('smartmainblogurl', 'smartblog');
         Configuration::updateGlobalValue('smartusehtml', '1');
+        Configuration::updateGlobalValue('smartallowchangedate', '0');
         Configuration::updateGlobalValue('smartshowauthorstyle', '1');
         Configuration::updateGlobalValue('smartenablecomment', '1');
         Configuration::updateGlobalValue('smartshowauthor', '1');
@@ -105,6 +106,7 @@ class smartblog extends Module {
                 !Configuration::deleteByName('smartblogmetadescrip') ||
                 !Configuration::deleteByName('smartpostperpage') ||
                 !Configuration::deleteByName('smartacceptcomment') ||
+                !Configuration::deleteByName('smartusehtml') ||
                 !Configuration::deleteByName('smartusehtml') ||
                 !Configuration::deleteByName('smartcaptchaoption') ||
                 !Configuration::deleteByName('smartshowviewed') ||
@@ -409,6 +411,7 @@ class smartblog extends Module {
             Configuration::updateValue('smartshowcolumn', Tools::getvalue('smartshowcolumn'));
             Configuration::updateValue('smartmainblogurl', Tools::getvalue('smartmainblogurl'));
             Configuration::updateValue('smartusehtml', Tools::getvalue('smartusehtml'));
+            Configuration::updateValue('smartallowchangedate', Tools::getvalue('smartallowchangedate'));
             Configuration::updateValue('smartshownoimg', Tools::getvalue('smartshownoimg'));
             Configuration::updateValue('smartcustomcss', Tools::getvalue('smartcustomcss'), true);
             $this->processImageUpload($_FILES);
@@ -597,6 +600,26 @@ class smartblog extends Module {
                         ),
                         array(
                             'id' => 'smartusehtml',
+                            'value' => 0,
+                            'label' => $this->l('Disabled')
+                        )
+                    )
+                ),
+                array(
+                    'type' => 'radio',
+                    'label' => $this->l('Allow changing creation date of blog post'),
+                    'name' => 'smartallowchangedate',
+                    'required' => false,
+                    'class' => 't',
+                    'is_bool' => true,
+                    'values' => array(
+                        array(
+                            'id' => 'smartallowchangedate',
+                            'value' => 1,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'smartallowchangedate',
                             'value' => 0,
                             'label' => $this->l('Disabled')
                         )
@@ -849,6 +872,7 @@ class smartblog extends Module {
         $helper->fields_value['smartshowauthor'] = Configuration::get('smartshowauthor');
         $helper->fields_value['smartmainblogurl'] = Configuration::get('smartmainblogurl');
         $helper->fields_value['smartusehtml'] = Configuration::get('smartusehtml');
+        $helper->fields_value['smartallowchangedate'] = Configuration::get('smartallowchangedate');
         $helper->fields_value['smartshowcolumn'] = Configuration::get('smartshowcolumn');
         $helper->fields_value['smartblogmetakeyword'] = Configuration::get('smartblogmetakeyword');
         $helper->fields_value['smartblogmetatitle'] = Configuration::get('smartblogmetatitle');

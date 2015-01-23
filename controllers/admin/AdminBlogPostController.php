@@ -139,7 +139,12 @@ class AdminBlogPostController extends AdminController {
                 $SmartBlogPost->id_category = Tools::getValue('id_category');
                 $SmartBlogPost->comment_status = Tools::getValue('comment_status');
                 $SmartBlogPost->id_author = $this->context->employee->id;
-                $SmartBlogPost->created = Date('y-m-d H:i:s');
+                if (Configuration::get('smartallowchangedate') == 1 && Tools::getValue('created')) {
+                  $SmartBlogPost->created = Tools::getValue('created');
+                }
+                else {
+                  $SmartBlogPost->created = Date('y-m-d H:i:s');
+                }
                 $SmartBlogPost->modified = Date('y-m-d H:i:s');
                 $SmartBlogPost->available = 1;
                 $SmartBlogPost->is_featured = Tools::getValue('is_featured');
@@ -175,6 +180,9 @@ class AdminBlogPostController extends AdminController {
                         $SmartBlogPost->id_category = Tools::getValue('id_category');
                         $SmartBlogPost->comment_status = Tools::getValue('comment_status');
                         $SmartBlogPost->id_author = $this->context->employee->id;
+                        if (Configuration::get('smartallowchangedate') == 1 && Tools::getValue('created')) {
+                          $SmartBlogPost->created = Tools::getValue('created');
+                        }
                         $SmartBlogPost->modified = Date('y-m-d H:i:s');
                 if (!$SmartBlogPost->update())
                     $this->errors[] = Tools::displayError('An error occurred while updating an object.')
@@ -349,6 +357,17 @@ class AdminBlogPostController extends AdminController {
                     )
                 ),
                 array(
+                    'type' => 'date',
+                    'label' => $this->l('Creation date'),
+                    'name' => 'created',
+                    'lang' => true,
+                    'required' => false,
+                    'condition' => (Configuration::get('smartallowchangedate') == 1),
+                    'hint' => array($this->l('Creation date of post.'),
+                        $this->l('Leave empty to take current date for a new post or leave unchanged for existing post')
+                    )
+                ),
+                array(
                     'type' => 'file',
                     'label' => $this->l('Feature Image:'),
                     'name' => 'image',
@@ -516,6 +535,11 @@ class AdminBlogPostController extends AdminController {
             foreach (Language::getLanguages(false) as $lang) {
                 $this->fields_value['tags'][(int) $lang['id_lang']] = SmartBlogPost::getProductTagsBylang((int) Tools::getvalue('id_smart_blog_post'), (int) $lang['id_lang']);
             }
+        }
+
+        if (Configuration::get('smartallowchangedate') == 1) {
+            $created = $SmartBlogPost->created;
+            $this->fields_value['created'] = $created ? $created : null;
         }
 
         $this->tpl_form_vars['PS_ALLOW_ACCENTED_CHARS_URL'] = (int) Configuration::get('PS_ALLOW_ACCENTED_CHARS_URL');
