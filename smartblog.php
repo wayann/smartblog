@@ -107,7 +107,7 @@ class smartblog extends Module {
                 !Configuration::deleteByName('smartpostperpage') ||
                 !Configuration::deleteByName('smartacceptcomment') ||
                 !Configuration::deleteByName('smartusehtml') ||
-                !Configuration::deleteByName('smartusehtml') ||
+                !Configuration::deleteByName('smartallowchangedate') ||
                 !Configuration::deleteByName('smartcaptchaoption') ||
                 !Configuration::deleteByName('smartshowviewed') ||
                 !Configuration::deleteByName('smartdisablecatimg') ||
